@@ -21,7 +21,7 @@ In the Home component:
     <Directory categories={categories} />
 </div>
 
-The Shop Component will always appear at the place chosen in the Home component when the user visits /home/shop! Somewhat similar to slots in Web Components but more related to navigation paths. 
+The Shop Component will always appear at the place chosen in the Home component when the user visits /home/shop! S;/omewhat similar to slots in Web Components but more related to navigation paths. 
 
 There is a much more sensible example in the app Home page itself! It makes much more sense to place the Outlet in the Nav Bar. 
 
@@ -60,4 +60,31 @@ Remember to set your Rules: allow read, read if true
 
 Creating the user is done using the user model. First we check if it does exists by using its reference (remember you can get the reference as a byproduct of the object creation). 
 
+## Google Redirect
 
+A challenge with using Google Redirect for logins is that the returned data from the request is lost as React has unmounted and then remounted the components when we leave and return to the URL in question. 
+
+Thus we make use of Hooks and the redirect result. Note that the 'auth' instance tracks our login states across the application. 
+
+<script>
+import { useEffect } from "react";
+import { getRedirectResult } from "firebase/auth";
+
+  // HOOKS
+  useEffect(() => {
+    const getRedirect = async () => {
+      const response = await getRedirectResult(auth);
+      if (response) {
+        const userDocRef = await createUserDocumentFromAuth(response.user);
+      }
+    };
+    getRedirect();
+  }, []);
+</script>
+
+## Creating the user
+
+Creating the user is a two step process here:
+
+1. Create a user with email and password.
+2. Fill the user profile with data utilizing the authentication object returned from a succesful user creation. 
