@@ -2,9 +2,9 @@ import { useState } from "react";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utls";
+} from "../../utils/firebase/firebase.utils";
 
-import { auth } from "../../utils/firebase/firebase.utls";
+import { auth } from "../../utils/firebase/firebase.utils";
 
 import "./sign-up-form.styles.scss";
 
@@ -94,7 +94,7 @@ const SignUpForm = () => {
           value={confirmPassword}
         />
 
-        <Button buttonType="google" type="submit">
+        <Button buttonType="inverted" type="submit">
           Sign Up
         </Button>
       </form>

@@ -88,3 +88,6 @@ Creating the user is a two step process here:
 
 1. Create a user with email and password.
 2. Fill the user profile with data utilizing the authentication object returned from a succesful user creation. 
+
+
+Note that buttons inside of a Form will automatically be of type submit unless specified otherwise. 
