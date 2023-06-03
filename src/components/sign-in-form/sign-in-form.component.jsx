@@ -26,8 +26,7 @@ const SignInForm = () => {
 
   const loginGoogleUser = async () => {
     try {
-      const response = await signInWithGooglePopup();
-      console.log(response);
+      await signInWithGooglePopup();
     } catch (err) {
       alert(err.code);
     }
@@ -36,8 +35,7 @@ const SignInForm = () => {
   const loginEmailUser = async (event) => {
     event.preventDefault();
     try {
-      const response = await signInWithUserEmailAndPassword(email, password);
-      console.log(response);
+      const { user } = await signInWithUserEmailAndPassword(email, password);
     } catch (err) {
       switch (err.code) {
         case "auth/wrong-password":

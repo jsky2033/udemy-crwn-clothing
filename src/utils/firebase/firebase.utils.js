@@ -6,6 +6,8 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
@@ -19,7 +21,7 @@ const firebaseConfig = {
   appId: "1:131528361520:web:4eab1f70bd8eacfcdbcff5",
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 // AUTHENTICATION
 const provider = new GoogleAuthProvider();
@@ -40,13 +42,17 @@ export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, provider);
 
 // authenticate user creation
-export const createAuthUserWithEmailAndPassword = async (
-  auth,
-  email,
-  password
-) => {
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+// sign out user
+export const signOutUser = () => signOut(auth);
+
+// authstatechange
+export const onAuthStateChangedListener = (callback) => {
+  onAuthStateChanged(auth, callback);
 };
 
 // DATABASE

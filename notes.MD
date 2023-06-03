@@ -91,3 +91,48 @@ Creating the user is a two step process here:
 
 
 Note that buttons inside of a Form will automatically be of type submit unless specified otherwise. 
+
+# The Auth Object
+
+Note that the auth object is the return of getAuth() function and simply returns the authentication instance to be used in the signin and authentication of user creation. 
+
+This is NOT the userAuth object which is returned by the firebase API upon successful authentication or account creation!
+
+# React Context
+
+Why do we need Context? Well note that the userAuth object is only returned in the Sign In and Sign Up functions which fire in their respective components. 
+
+However other components also need that object! The profile page, the history page etc. 
+
+One way of doing this is sending up the user Object to the App Component to pass down to all its children. The latter part is called prop drilling and is somewhat wasteful as there is no need for a lot of these Components to have the user Object. 
+
+React Context allows you to have one external storage space that any Component can read and write to directly. 
+
+- setCurrentUser method is called
+- any Component that now has the currentUser hook should now re-render as React detects (since the setter function has fired) that this hook has been updated.  
+
+Context is esssentially just a Compoenent that leverages useState on a parent level. 
+
+## Important Notice
+
+Any Component that is 'hooked' into a a Context will re-run whenever that context state changes regardless of whether the state change happens in another component or not.
+
+This does NOT mean the component will re-render though! Rememeber that React uses the Virtual DOM to detect exactly what changed and will cause only that portion of the content to re-render. 
+
+You can see exactly what is re-rendering by using the Paint Flashing tool under 'Rendering'
+
+This still means the function is still being re-run though. This could potentially cause performance issues if there is a large amount of code before the render function. 
+
+# Consolidating Authentication Changes
+
+Note that every time we want to change auth state and update user status, we have to use the setCurrentUser function and this results in our post-auth userState changes being spread out over multiple functions and components. 
+
+In order to get around this, we use the observableListener which Firebase provides. 
+
+The idea is that, this will listen to whenever the auth state changes (due to sign in or sign out) and will execute the code in it. 
+
+In fact, Firebase is actually listening to our INSTANCE of crwn-clothing Auth and is keeping track on whether the user is logged in or not. 
+
+## Where to Listen?
+
+The best place for this listener to be made active would be the User Context. Since this has the currentUser state, and we know that it exists on a parent level to other components, we can simply have the listener in the useEffect function and have setUser fire when an auth state changes with the return of the latter. 

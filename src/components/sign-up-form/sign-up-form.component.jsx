@@ -4,8 +4,6 @@ import {
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
 
-import { auth } from "../../utils/firebase/firebase.utils";
-
 import "./sign-up-form.styles.scss";
 
 // components
@@ -41,7 +39,6 @@ const SignUpForm = () => {
 
     try {
       const { user } = await createAuthUserWithEmailAndPassword(
-        auth,
         email,
         password
       );
