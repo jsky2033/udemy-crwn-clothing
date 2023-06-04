@@ -113,6 +113,8 @@ React Context allows you to have one external storage space that any Component c
 
 Context is esssentially just a Compoenent that leverages useState on a parent level. 
 
+However rather than passing down props like parent components usually do, it passively gives access to all the child components that want to access it.  
+
 ## Important Notice
 
 Any Component that is 'hooked' into a a Context will re-run whenever that context state changes regardless of whether the state change happens in another component or not.
@@ -122,6 +124,17 @@ This does NOT mean the component will re-render though! Rememeber that React use
 You can see exactly what is re-rendering by using the Paint Flashing tool under 'Rendering'
 
 This still means the function is still being re-run though. This could potentially cause performance issues if there is a large amount of code before the render function. 
+
+## Order of Contexts
+
+We set up the order of React contexts by the relationship which should exist between the data in that context. For example, in this case we have products and users. 
+
+Ask, does whatever you are wrapping need access to what you are providing? Because the child components will be the ones that need to be fed data (ideally). 
+
+- The product context will need to be able to access the user who is logged in because they may decide to filter out which products to display for this user (based on geolocation, products already sold to this user etc.)
+- The user context (sign in, sign out etc.) don't really need to have access to the products since it won't really do anything with this data. 
+
+Since the direction of data is downwards, the User Provider will need to wrap around the Products Provider. 
 
 # Consolidating Authentication Changes
 
@@ -136,3 +149,21 @@ In fact, Firebase is actually listening to our INSTANCE of crwn-clothing Auth an
 ## Where to Listen?
 
 The best place for this listener to be made active would be the User Context. Since this has the currentUser state, and we know that it exists on a parent level to other components, we can simply have the listener in the useEffect function and have setUser fire when an auth state changes with the return of the latter. 
+
+Note that the auth state change always returns the user object if succesful and returns null if not succesful so we can setUser here. 
+
+Also note that Google Sign in can also be used to sign up people as the authentication object it contains has the name and email for that person. 
+
+# Overall styling
+
+Styling for the whole page (padding, margins etc.) should be placed in the index.css file!
+
+# Cart
+
+If you think about it, Context really is appropriate for the cart. Remember that the cart items need to be viewed on multiple components and pages! Therefore it makes sense to have the cart items be accessible across the aoo. 
+
+In fact it makes sense for this to be a level below the products as the cart items selected are only a subset of the products. 
+
+There is another reason to have this be a Context. Remember that we want to be able to open or close this based on if the user has clicked on a navigation button. 
+
+We need to enable communication between the nav bar button and the cart component itself. We could do this via parent-child comms but it can also be done with Context!
