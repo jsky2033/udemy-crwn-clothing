@@ -167,3 +167,13 @@ In fact it makes sense for this to be a level below the products as the cart ite
 There is another reason to have this be a Context. Remember that we want to be able to open or close this based on if the user has clicked on a navigation button. 
 
 We need to enable communication between the nav bar button and the cart component itself. We could do this via parent-child comms but it can also be done with Context!
+
+## Setting/Updating Cart Items
+
+Since this is a more complex item, we cannot simply use the setter function directly and must provide a helper function that can process the data before updating the context state.
+
+- First we identify where the function will be used: it will be used in the product card so it should take in the product. 
+- Then we write a function that takes in the product and processes out the data we want to update the cart items context with. 
+- Finally we should set cart items with an updated array. 
+
+Notice why we use a helper function to do the processing: Because we want to make sure that what we have is a series of PURE functions! We do NOT want to create functions that alter the data outside of it and as such it is much better practic to write a helper to return updated arrays instead of conditionally updating an existing array. 
