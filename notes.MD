@@ -119,7 +119,7 @@ However rather than passing down props like parent components usually do, it pas
 
 Any Component that is 'hooked' into a a Context will re-run whenever that context state changes regardless of whether the state change happens in another component or not.
 
-This does NOT mean the component will re-render though! Rememeber that React uses the Virtual DOM to detect exactly what changed and will cause only that portion of the content to re-render. 
+This does NOT mean the whole component will be re-rendered in the DOM though! Rememeber that React uses the Virtual DOM to detect exactly what changed and will cause only that portion of the content to re-render. 
 
 You can see exactly what is re-rendering by using the Paint Flashing tool under 'Rendering'
 
@@ -176,4 +176,8 @@ Since this is a more complex item, we cannot simply use the setter function dire
 - Then we write a function that takes in the product and processes out the data we want to update the cart items context with. 
 - Finally we should set cart items with an updated array. 
 
-Notice why we use a helper function to do the processing: Because we want to make sure that what we have is a series of PURE functions! We do NOT want to create functions that alter the data outside of it and as such it is much better practic to write a helper to return updated arrays instead of conditionally updating an existing array. 
+Notice why we use a helper function to do the processing: Because we want to make sure that what we have is a series of PURE functions! We do NOT want to create functions that alter the data outside of it and as such it is much better practice to write a helper to return updated arrays instead of conditionally updating an existing array. 
+
+# UseEffect Best practices
+
+It is best to run multiple useEffects for each specific functionality rather than just have all the code in one useEffect. 

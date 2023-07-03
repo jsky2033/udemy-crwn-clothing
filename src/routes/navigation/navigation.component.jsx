@@ -23,6 +23,7 @@ const Navigation = () => {
 
   return (
     <Fragment>
+      {/* Navigation Bar itself */}
       <div className="navigation">
         <Link className="logo-container" to="/">
           <CrwnLogo />
@@ -46,6 +47,7 @@ const Navigation = () => {
         </div>
         {isCartOpen && <CartDropdown />}
       </div>
+      {/* Page Component Passed into Route */}
       <Outlet />
     </Fragment>
   );
