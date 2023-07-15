@@ -181,3 +181,38 @@ Notice why we use a helper function to do the processing: Because we want to mak
 # UseEffect Best practices
 
 It is best to run multiple useEffects for each specific functionality rather than just have all the code in one useEffect. 
+
+## UseEffect and Requests
+
+It is always best to create a function inside useEffect and then fire it instead of making the useEffect function an async method itself.  
+
+# The FireStore database
+
+## Filling in the dummy data
+
+To do this we utilize a method in Firbase that allows us to write our fake data to the Firestore database. Note that firing this multiple times is fine, because if Firebase detects that we already have this collection in the database, then it will not bother creating it again. 
+
+# Handling the collection in the React App
+
+The best way to handle this collection is to use it as an object with the items being each induvidual category. Note that it is labeled as being a map which it is technically not. 
+
+# Previews
+
+Notice that for previews we still use parent-child communication. So context is not always needed!
+
+# Nested Route
+
+When we use shop/* in the main App component, we are essentially saying:
+
+- Whenever someone goes to whatever parameters of shop that follow, render the Shop. 
+- Since there are additional routes inside the shop component, the navigation will follow that path. 
+
+# Where to place event listeners for Context Changes
+
+When using Context, it is clear that the best place to put the event listeners would be the modular item itself. The best example of this is the ProductCard component being able to change the Cart Context. 
+
+This way, it does not matter where the ProductCard is placed in the app, people will always be able to add to card by clicking its button. 
+
+# Styling Clashing
+
+Note that using CSS styles involves potential clashes due to shared names. Of course we could use unique naming conventions to get around this. However there is a more reliable solution. 

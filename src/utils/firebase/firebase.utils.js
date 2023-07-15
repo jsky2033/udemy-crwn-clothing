@@ -10,7 +10,16 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCmqDjIL5anmLG-xSRYlC0Q52FXG61Hiqw",
@@ -87,3 +96,61 @@ export const createUserDocumentFromAuth = async (
     }
   }
 };
+
+// create collection and documents
+
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  // create collection reference
+  const collectionRef = collection(db, collectionKey);
+
+  const batch = writeBatch(db);
+
+  // add objects to collection
+  objectsToAdd.forEach((object) => {
+    // create document reference by using collection ref
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    // set value in batch
+    batch.set(docRef, object);
+  });
+
+  await batch.commit();
+  console.log("done");
+};
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, "categories");
+  const q = query(collectionRef);
+
+  // get array of all categories
+  const querySnapshot = await getDocs(q);
+  // create map of categories with the key being the cat title and the value being the cat body
+  const categoryMap = querySnapshot.docs.reduce((accumulator, docSnapShot) => {
+    const { title, items } = docSnapShot.data();
+    accumulator[title.toLowerCase()] = items;
+    return accumulator;
+  }, {}); // we set the accumulator to be an object
+
+
+  return categoryMap;
+};
+
+// ITEM OBJECT SCHEMA
+
+// <categories> // collection of categories
+// [
+//    <category> // document with a collection in one of the fields
+//   {
+//     title: "Hats",
+//     items: [
+//       {
+//         id: 1,
+//         name: "Brown Brim",
+//         imageUrl: "https://i.ibb.co/ZYW3VTp/brown-brim.png",
+//         price: 25,
+//       },
+//     ]
+//   }
+// ]
