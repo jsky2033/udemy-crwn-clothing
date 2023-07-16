@@ -35,7 +35,7 @@ const SignInForm = () => {
   const loginEmailUser = async (event) => {
     event.preventDefault();
     try {
-      const { user } = await signInWithUserEmailAndPassword(email, password);
+      await signInWithUserEmailAndPassword(email, password);
     } catch (err) {
       switch (err.code) {
         case "auth/wrong-password":
